@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Node struct {
 	data string
@@ -47,33 +50,36 @@ func (list *LinkedList) insertAtFront(data string) {
 	list.head = newNode
 }
 
-func (list *LinkedList) insertAfterValue(afterVal string, data string) {
+func (list *LinkedList) insertAfterValue(afterVal string, data string) error {
 	newNode := &Node{data: data, next: nil}
 	current := list.head
 
+	//looping list head jika tidak sama dengan nil
 	for current != nil {
 		if current.data == afterVal {
 			newNode.next = current.next
 			current.next = newNode
-			return
+			return nil
 		}
 
 		current = current.next
 	}
+	return errors.New("tidak bisa insert node afterVal tidak sesuai")
 
-	fmt.Println("tidak bisa insert node")
 }
 
 func main() {
 	link := LinkedList{}
 	link.insertAtFront("danawan")
 	link.insertAtBack("bimantoro")
-	link.insertAfterValue("bimantoro", "putri")
+	err := link.insertAfterValue("bimantoro", "putri")
 
-	current := link.head
-	for current != nil {
-		fmt.Println(current.data)
-		current = current.next
+	if err != nil {
+		current := link.head
+		for current != nil {
+			fmt.Println(current.data)
+			current = current.next
 
+		}
 	}
 }
