@@ -112,16 +112,18 @@ func (list *LinkedList) deleteLastNode() error {
 		return errors.New("tidak ada headnya")
 	}
 
-	// jika merupakan head saja atau tidak ada tailnya
+	// jika merupakan head saja atau tidak ada tailnya hapus head tsb
 	if list.head.next == nil {
 		list.head = nil
 		return nil
 	}
 
-	current := list.head
+	var current *Node = list.head
 	for current.next.next != nil {
 		current = current.next
 	}
+
+	current.next = nil
 	return nil
 
 }
@@ -131,9 +133,11 @@ func main() {
 	link.insertAtFront("danawan")
 	link.insertAtBack("bimantoro")
 	err := link.insertAfterValue("bimantoro", "putri")
-	link.insertBeforeValue("bimantoro", "tamara")
+	//link.insertBeforeValue("bimantoro", "tamara")
 
-	err = link.deleteFromFront()
+	//err = link.deleteFromFront()
+	err = link.deleteLastNode()
+	err = link.deleteLastNode()
 
 	if err != nil {
 		fmt.Println("Errornya:", err.Error())
