@@ -50,7 +50,12 @@ func (list *LinkedList) insertAtFront(data string) {
 	list.head = newNode
 }
 
+// insert setelah value yg sudah ada
 func (list *LinkedList) insertAfterValue(afterVal string, data string) error {
+	if list.head == nil {
+		return errors.New("data kosong")
+	}
+
 	newNode := &Node{data: data, next: nil}
 	current := list.head
 
@@ -68,18 +73,44 @@ func (list *LinkedList) insertAfterValue(afterVal string, data string) error {
 
 }
 
+func (list *LinkedList) insertBeforeValue(beforeVal string, data string) error {
+	if list.head == nil {
+		return errors.New("tidak ada headnya")
+	}
+
+	if list.head.data == beforeVal {
+		newNode := &Node{data: data, next: list.head}
+		list.head = newNode
+		return nil
+	}
+
+	current := list.head
+	for current.next != nil {
+		if current.next.data == beforeVal {
+			newNode := &Node{data: data, next: current.next}
+			current.next = newNode
+			return nil
+		}
+		current = current.next
+	}
+	return errors.New("tidak bisa insert value")
+}
+
 func main() {
 	link := LinkedList{}
 	link.insertAtFront("danawan")
 	link.insertAtBack("bimantoro")
 	err := link.insertAfterValue("bimantoro", "putri")
+	link.insertBeforeValue("bimantoro", "tamara")
 
 	if err != nil {
-		current := link.head
-		for current != nil {
-			fmt.Println(current.data)
-			current = current.next
+		fmt.Println("Errornya:", err.Error())
+	}
 
-		}
+	current := link.head
+	for current != nil {
+		fmt.Println(current.data)
+		current = current.next
+
 	}
 }
