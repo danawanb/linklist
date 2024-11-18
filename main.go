@@ -73,6 +73,7 @@ func (list *LinkedList) insertAfterValue(afterVal string, data string) error {
 
 }
 
+// insert sebelum value
 func (list *LinkedList) insertBeforeValue(beforeVal string, data string) error {
 	if list.head == nil {
 		return errors.New("tidak ada headnya")
@@ -96,12 +97,43 @@ func (list *LinkedList) insertBeforeValue(beforeVal string, data string) error {
 	return errors.New("tidak bisa insert value")
 }
 
+// delete from front
+func (list *LinkedList) deleteFromFront() error {
+	if list.head != nil {
+		list.head = list.head.next
+		return nil
+	}
+	return errors.New("Tidak ada headnya")
+}
+
+// delete node terakhir
+func (list *LinkedList) deleteLastNode() error {
+	if list.head == nil {
+		return errors.New("tidak ada headnya")
+	}
+
+	// jika merupakan head saja atau tidak ada tailnya
+	if list.head.next == nil {
+		list.head = nil
+		return nil
+	}
+
+	current := list.head
+	for current.next.next != nil {
+		current = current.next
+	}
+	return nil
+
+}
+
 func main() {
 	link := LinkedList{}
 	link.insertAtFront("danawan")
 	link.insertAtBack("bimantoro")
 	err := link.insertAfterValue("bimantoro", "putri")
 	link.insertBeforeValue("bimantoro", "tamara")
+
+	err = link.deleteFromFront()
 
 	if err != nil {
 		fmt.Println("Errornya:", err.Error())
