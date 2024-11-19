@@ -128,6 +128,26 @@ func (list *LinkedList) deleteLastNode() error {
 
 }
 
+func (list *LinkedList) findNodeAt(index int) *Node {
+	var count = 0
+	var current *Node = list.head
+
+	for current != nil {
+		count++
+		current = current.next
+	}
+
+	if index <= 0 || index > count {
+		return nil
+	}
+
+	current = list.head
+	for count = 1; count < index; count++ {
+		current = current.next
+	}
+	return current
+}
+
 func main() {
 	link := LinkedList{}
 	link.insertAtFront("danawan")
@@ -148,5 +168,10 @@ func main() {
 		fmt.Println(current.data)
 		current = current.next
 
+	}
+
+	node := link.findNodeAt(1)
+	if node != nil {
+		fmt.Println(node.data)
 	}
 }
